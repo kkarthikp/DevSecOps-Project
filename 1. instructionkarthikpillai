@@ -1,0 +1,24 @@
+After installing Jenkins
+sudo su
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+
+Refer pipelinekarthik.txt for reference
+Update DockerHub credentials
+Update API key
+Update Git Url
+
+Refer below snippet and update
+
+
+
+
+
+                echo "Pushing the image to docker hub"
+                withCredentials([usernamePassword(credentialsId:"docker",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker build --build-arg TMDB_V3_API_KEY=387345bf824a1ccec48603a00378f287 -t netflix ."
+                sh "docker tag netflix ${env.dockerHubUser}/netflix:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker push ${env.dockerHubUser}/netflix:latest"
+
+
